@@ -72,7 +72,22 @@ const getBookings = async () => {
   return result;
 };
 
+const updateBookings = async (status: string, bookingsId: string) => {
+  const result = await pool.query(
+    `UPDATE bookings SET status=$1 WHERE id=$2 RETURNING *`,
+    [status, bookingsId]
+  );
+  return result;
+};
+
+const deleteBookings = async(bookingsId : string)=>{
+    const result = await pool.query(`DELETE FROM bookings WHERE id=$1`,[bookingsId]);
+    return result;
+}
+
 export const bookingService = {
   createBooking,
   getBookings,
+  updateBookings,
+  deleteBookings
 };

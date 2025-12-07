@@ -34,7 +34,62 @@ const getBookings = async (req: Request, res: Response) => {
   }
 };
 
+const updateBookings = async (req: Request, res: Response) => {
+  const bookingId = req.params.bookingId;
+  const { status } = req.body;
+
+  try {
+    const result = await bookingService.updateBookings(
+      status as string,
+      bookingId as string
+    );
+
+    if (result.rows.length === 0) {
+      res.status(404).json({
+        status: false,
+        message: "Nothing Found",
+      });
+    } else {
+      res.status(200).json({
+        status: true,
+        message: "Booking Data Updated Successfully",
+        data: result.rows[0],
+      });
+    }
+  } catch (err: any) {
+    res.status(500).json({
+      status: false,
+      message: err.message,
+    });
+  }
+};
+
+const deleteBooking = async (req: Request, res: Response) => {
+  const bookingId = req.params.bookingId;
+  try {
+    const result = await bookingService.deleteBookings(bookingId as string);
+    if (result.rowCount === 0) {
+      res.status(404).json({
+        status: false,
+        message: "Nothing Found",
+      });
+    } else {
+      res.status(200).json({
+        status: true,
+        message: "Bookings Deleted Successfully",
+      });
+    }
+  } catch (err: any) {
+    res.status(500).json({
+      status: false,
+      message: err.message,
+    });
+  }
+};
+
 export const bookingController = {
   createBooking,
-  getBookings
+  getBookings,
+  updateBookings,
+  deleteBooking,
 };
