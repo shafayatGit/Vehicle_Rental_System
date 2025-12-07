@@ -69,6 +69,7 @@ const updateUser = async (req: Request, res: Response) => {
       paramsEmail as string,
       req.body
     );
+    //console.log(result);
     if (result.rows.length === 0) {
       res.status(404).json({
         status: false,

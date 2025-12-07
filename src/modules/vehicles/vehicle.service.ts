@@ -1,5 +1,6 @@
 import { pool } from "../../config/db";
 
+//creating vehicle data
 const createVehicle = async (payload: Record<string, undefined>) => {
   const {
     vehicle_name,
@@ -21,6 +22,55 @@ const createVehicle = async (payload: Record<string, undefined>) => {
   return result;
 };
 
+//getting vehicle data
+const getVehicle = async () => {
+  const result = await pool.query(`SELECT * FROM vehicles`);
+  return result;
+};
+
+//getting single vehicle data
+const getSingleVehicle = async (vehicleId: string) => {
+  const result = await pool.query(`SELECT * FROM vehicles WHERE id=$1`, [
+    vehicleId,
+  ]);
+  return result;
+};
+
+//updating vehicle data
+const updateVehicle = async (
+  vehicleId: string,
+  payload: Record<string, undefined>
+) => {
+  const {
+    vehicle_name,
+    type,
+    registration_number,
+    daily_rent_price,
+    availability_status,
+  } = payload;
+  const result = await pool.query(
+    `UPDATE vehicles SET vehicle_name=$1,type=$2,registration_number=$3,daily_rent_price=$4,availability_status=$5 WHERE id=$6 RETURNING *`,
+    [
+      vehicle_name,
+      type,
+      registration_number,
+      daily_rent_price,
+      availability_status,
+      vehicleId,
+    ]
+  );
+  return result;
+};
+
+//deleting vehicle data 
+const deleteVehicle = async(vehicleId:string)=>{
+const result = await pool.query(`DELETE FROM vehicles WHERE id=$1`,[vehicleId]);
+return result;
+}
 export const vehicleServices = {
   createVehicle,
+  getVehicle,
+  getSingleVehicle,
+  updateVehicle,
+  deleteVehicle
 };
