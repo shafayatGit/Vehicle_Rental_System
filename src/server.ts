@@ -3,6 +3,7 @@ import config from "./config";
 import initDB from "./config/db";
 import { userRoutes } from "./modules/users/user.routes";
 import { vehicleRouter } from "./modules/vehicles/vehicle.routes";
+import { bookingRoutes } from "./modules/bookings/booking.routes";
 const app = express();
 
 //!Parser Or Middleware
@@ -20,6 +21,9 @@ app.use("/v1/users", userRoutes);
 
 //?CRUD for Vehicle
 app.use("/v1/vehicles", vehicleRouter);
+
+//?CRUD for Bookings
+app.use("/v1/bookings", bookingRoutes);
 
 app.listen(config.port, () => {
   console.log(`Server is running on port ${config.port}`);
