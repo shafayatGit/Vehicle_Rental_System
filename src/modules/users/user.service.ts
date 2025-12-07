@@ -45,8 +45,18 @@ const updateUser = async (
 };
 
 //delete user
-const deleteUser = async (email: string) => {
-  const result = await pool.query(`DELETE FROM users WHERE email=$1`, [email]);
+const deleteUser = async (id: string) => {
+  const check = await pool.query(
+    `SELECT 1 FROM bookings 
+     WHERE customer_id = $1`,
+    [id]
+  );
+
+  if (check.rowCount !== 0) {
+    throw new Error("Cannot delete user with active bookings");
+  }
+
+  const result = await pool.query(`DELETE FROM users WHERE id = $1`, [id]);
   return result;
 };
 export const userServices = {

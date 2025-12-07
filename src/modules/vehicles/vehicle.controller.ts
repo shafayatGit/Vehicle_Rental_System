@@ -22,6 +22,7 @@ const getVehicle = async (req: Request, res: Response) => {
     const result = await vehicleServices.getVehicle();
     res.status(201).json({
       success: true,
+      message: "Vehicles retrieved successfully",
       data: result.rows,
     });
   } catch (err: any) {
@@ -45,6 +46,7 @@ const getSingleVehicle = async (req: Request, res: Response) => {
     } else {
       res.status(200).json({
         status: true,
+        message: "Vehicles retrieved successfully",
         data: result.rows[0],
       });
     }

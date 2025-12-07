@@ -9,7 +9,6 @@ const createBooking = async (payload: Record<string, undefined>) => {
     total_price,
     status,
   } = payload;
-
   const result = await pool.query(
     `WITH inserted_booking AS (
       INSERT INTO bookings (
@@ -43,6 +42,12 @@ const createBooking = async (payload: Record<string, undefined>) => {
       status,
     ]
   );
+  await pool.query(
+    `UPDATE vehicles 
+       SET availability_status = 'booked'
+       WHERE id = $1`,
+    [vehicle_id]
+  );
   return result;
 };
 
@@ -56,10 +61,6 @@ const getBookings = async () => {
       b.total_price,
       b.status,
 
-      json_build_object(
-        'name', u.name,
-        'email', u.email
-      ) AS customer,
 
       json_build_object(
         'vehicle_name', v.vehicle_name,
@@ -67,27 +68,45 @@ const getBookings = async () => {
       ) AS vehicle
 
     FROM bookings b
-    JOIN users u ON b.customer_id = u.id
     JOIN vehicles v ON b.vehicle_id = v.id`);
   return result;
 };
 
-const updateBookings = async (status: string, bookingsId: string) => {
+const updateBookings = async (
+  payload: Record<string, undefined>,
+  bookingsId: string
+) => {
+  const { status } = payload;
+  const bookingRes = await pool.query(
+    `SELECT vehicle_id FROM bookings WHERE id = $1`,
+    [bookingsId]
+  );
+  const vehicleId = bookingRes.rows[0].vehicle_id;
   const result = await pool.query(
     `UPDATE bookings SET status=$1 WHERE id=$2 RETURNING *`,
     [status, bookingsId]
   );
+  if (status === "returned" || status === "cancelled") {
+    await pool.query(
+      `UPDATE vehicles 
+         SET availability_status = 'available' 
+         WHERE id = $1`,
+      [vehicleId]
+    );
+  }
   return result;
 };
 
-const deleteBookings = async(bookingsId : string)=>{
-    const result = await pool.query(`DELETE FROM bookings WHERE id=$1`,[bookingsId]);
-    return result;
-}
+const deleteBookings = async (bookingsId: string) => {
+  const result = await pool.query(`DELETE FROM bookings WHERE id=$1`, [
+    bookingsId,
+  ]);
+  return result;
+};
 
 export const bookingService = {
   createBooking,
   getBookings,
   updateBookings,
-  deleteBookings
+  deleteBookings,
 };

@@ -2,22 +2,22 @@ import { Request, Response } from "express";
 import { userServices } from "./user.service";
 
 //Post User
-const createUser = async (req: Request, res: Response) => {
-  try {
-    const result = await userServices.createUser(req.body);
+// const createUser = async (req: Request, res: Response) => {
+//   try {
+//     const result = await userServices.createUser(req.body);
 
-    res.status(201).json({
-      success: true,
-      message: "user data posted successfully",
-      data: result.rows[0],
-    });
-  } catch (err: any) {
-    res.status(404).json({
-      success: false,
-      message: err.message,
-    });
-  }
-};
+//     res.status(201).json({
+//       success: true,
+//       message: "user data posted successfully",
+//       data: result.rows[0],
+//     });
+//   } catch (err: any) {
+//     res.status(404).json({
+//       success: false,
+//       message: err.message,
+//     });
+//   }
+// };
 
 //Get all users
 const getAllUsers = async (req: Request, res: Response) => {
@@ -25,6 +25,7 @@ const getAllUsers = async (req: Request, res: Response) => {
     const result = await userServices.getAllUsers();
     res.status(200).json({
       success: true,
+      message: "Users retrieved successfully",
       data: result.rows,
     });
     // console.log(result.rows);
@@ -92,10 +93,10 @@ const updateUser = async (req: Request, res: Response) => {
 
 //delete user
 const deleteUser = async (req: Request, res: Response) => {
-  const paramsEmail = req.params.email;
+  const userId = req.params.id;
 
   try {
-    const result = await userServices.deleteUser(paramsEmail as string);
+    const result = await userServices.deleteUser(userId as string);
     if (result.rowCount === 0) {
       res.status(404).json({
         status: false,
@@ -115,7 +116,6 @@ const deleteUser = async (req: Request, res: Response) => {
   }
 };
 export const userControllers = {
-  createUser,
   getAllUsers,
   getSingleUser,
   updateUser,

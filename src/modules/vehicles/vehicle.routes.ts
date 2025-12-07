@@ -1,16 +1,17 @@
 import { Router } from "express";
 import { vehicleController } from "./vehicle.controller";
+import auth from "../../middleware/auth";
 
 const router = Router();
 
-router.post("/", vehicleController.createVehicle);
+router.post("/", auth("admin"), vehicleController.createVehicle);
 
 router.get("/", vehicleController.getVehicle);
 
-router.get("/:vehicleId",vehicleController.getSingleVehicle)
+router.get("/:vehicleId", vehicleController.getSingleVehicle);
 
-router.put("/:vehicleId", vehicleController.updateVehicle);
+router.put("/:vehicleId", auth("admin"), vehicleController.updateVehicle);
 
-router.delete("/:vehicleId", vehicleController.deleteVehicle)
+router.delete("/:vehicleId",auth("admin"), vehicleController.deleteVehicle);
 
 export const vehicleRouter = router;

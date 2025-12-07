@@ -40,7 +40,7 @@ const updateBookings = async (req: Request, res: Response) => {
 
   try {
     const result = await bookingService.updateBookings(
-      status as string,
+      req.body,
       bookingId as string
     );
 
