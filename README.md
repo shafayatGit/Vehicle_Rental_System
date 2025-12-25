@@ -1,7 +1,7 @@
 # 🚗 Vehicle Rental System – Backend API
 
-🔗 **Live API URL:** https://your-live-api-url.com  
-📄 **API Documentation:** https://your-live-api-url.com/api-reference  
+🔗 **Live API URL:** https://vehicle-rental-system-db.vercel.app/ 
+📄 **API Documentation:** https://github.com/Apollo-Level2-Web-Dev/B6A2/blob/main/API_REFERENCE.md  
 
 ---
 
