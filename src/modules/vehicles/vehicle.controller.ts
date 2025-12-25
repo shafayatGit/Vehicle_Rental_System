@@ -40,8 +40,9 @@ const getSingleVehicle = async (req: Request, res: Response) => {
     const result = await vehicleServices.getSingleVehicle(vehicleId as string);
     if (result.rows.length === 0) {
       res.status(404).json({
-        status: false,
-        message: "Nothing Found",
+        success: true,
+        message: "No vehicles found",
+        data: result.rows[0],
       });
     } else {
       res.status(200).json({

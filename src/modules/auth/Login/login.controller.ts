@@ -3,6 +3,7 @@ import { loginService } from "./login.service";
 
 const signinUser = async (req: Request, res: Response) => {
   const { email, password } = req.body;
+  //console.log(email, password);
 
   try {
     const result = await loginService.signinUser(email, password);
