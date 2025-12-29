@@ -12,9 +12,9 @@ const auth = (...roles: string[]) => {
     ) as JwtPayload;
 
     if (!roles.includes(decodedToken.role) && !token) {
-      return res.status(403).json({
+      return res.status(401).json({
         success: false,
-        message: "Forbidden access",
+        message: "Unauthorized access",
       });
     } else if (!roles.includes(decodedToken.role) && token) {
       return res.status(403).json({
