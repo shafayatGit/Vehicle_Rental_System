@@ -4,8 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node dist/server.mjs",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx tsx watch ./src/server.ts"
+    "dev": "npx tsx watch ./src/server.ts",
+    "build:tsup": "tsup"
   },
   "keywords": [],
   "author": "",
@@ -17,7 +19,8 @@
     "express-validator": "^7.3.2",
     "jsonwebtoken": "^9.0.3",
     "pg": "^8.16.3",
-    "tsc-watch": "^7.2.0"
+    "tsc-watch": "^7.2.0",
+    "tsup": "^8.5.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
