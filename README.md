@@ -1,7 +1,7 @@
 # 🚗 Vehicle Rental System – Backend API
 
-🔗 **Live API URL:** https://vehicle-rental-system-db.vercel.app 
-📄 **API Documentation:** https://github.com/Apollo-Level2-Web-Dev/B6A2/blob/main/API_REFERENCE.md  
+🔗 **Live API URL:** https://vehicle-rental-system-ten-smoky.vercel.app/
+📄 **API Documentation:** https://github.com/Apollo-Level2-Web-Dev/B6A2/blob/main/API_REFERENCE.md
 
 ---
 
@@ -10,6 +10,7 @@
 The **Vehicle Rental System** is a backend RESTful API designed to manage vehicle rentals with secure authentication, role-based authorization, and real-world business logic.
 
 It allows:
+
 - Admins to manage vehicles, users, and bookings
 - Customers to browse vehicles and create bookings
 - Automatic rental price calculation and vehicle availability handling
@@ -44,6 +45,7 @@ It allows:
 ## 📦 Dependencies
 
 ### Production Dependencies
+
 - express
 - pg
 - bcrypt
@@ -53,6 +55,7 @@ It allows:
 - express-validator
 
 ### Development Dependencies
+
 - typescript
 - ts-node-dev
 - @types/node
@@ -68,6 +71,7 @@ It allows:
 Follow the steps below to run the project locally.
 
 ### Step 1: Clone the Repository
+
 ```bash
 git clone https://github.com/shafayatGit/vehicle-rental-system.git
 cd vehicle-rental-system
@@ -152,3 +156,4 @@ Backend Developer | Node.js | TypeScript | PostgreSQL
 
 
 
+```
