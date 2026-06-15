@@ -11,9 +11,6 @@ const app = express();
 //!Parser Or Middleware
 app.use(express.json());
 
-//! Initializing DB
-initDB();
-
 app.get("/", (req: Request, res: Response) => {
   res.send("Vehicle Rental System Server");
 });
@@ -33,6 +30,19 @@ app.use("/api/v1/auth", registrationRoutes);
 //?Handling Login
 app.use("/api/v1/auth", loginRoutes);
 
-app.listen(config.port, () => {
-  console.log(`Server is running on port ${config.port}`);
-});
+const startServer = async () => {
+  try {
+    //! Initializing DB
+    await initDB();
+    console.log("Database initialized successfully");
+
+    app.listen(config.port, () => {
+      console.log(`Server is running on port ${config.port}`);
+    });
+  } catch (error) {
+    console.error("Failed to start server:", error);
+    process.exit(1);
+  }
+};
+
+startServer();

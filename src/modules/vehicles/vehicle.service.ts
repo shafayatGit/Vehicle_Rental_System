@@ -1,7 +1,7 @@
 import { pool } from "../../config/db";
 
 //creating vehicle data
-const createVehicle = async (payload: Record<string, undefined>) => {
+const createVehicle = async (payload: Record<string, any>) => {
   const {
     vehicle_name,
     type,
@@ -16,7 +16,7 @@ const createVehicle = async (payload: Record<string, undefined>) => {
       type,
       registration_number,
       daily_rent_price,
-      availability_status,
+      availability_status || 'available',
     ]
   );
   return result;
@@ -39,7 +39,7 @@ const getSingleVehicle = async (vehicleId: string) => {
 //updating vehicle data
 const updateVehicle = async (
   vehicleId: string,
-  payload: Record<string, undefined>
+  payload: Record<string, any>
 ) => {
   const {
     vehicle_name,

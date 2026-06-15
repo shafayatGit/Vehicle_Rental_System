@@ -22,7 +22,7 @@ const signinUser = async (email: string, password: string) => {
       { name: user.name, email: user.email, role: user.role },
       config.jwt_secret as string,
       {
-        expiresIn: "7d",
+        expiresIn: "1d",
       }
     );
 

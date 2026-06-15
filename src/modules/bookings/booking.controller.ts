@@ -1,19 +1,25 @@
 import { Request, Response } from "express";
 import { bookingService } from "./booking.service";
+import sendResponse from "../../utils/sendResponse";
 
 //creating bookings
 const createBooking = async (req: Request, res: Response) => {
   try {
-    const result = await bookingService.createBooking(req.body);
-    res.status(201).json({
+    const user = (req as any).user;
+    const result = await bookingService.createBooking(req.body, user.email);
+    
+    sendResponse(res, {
+      statusCode: 201,
       success: true,
-      message: "Booking data posted successfully",
+      message: "Booking created successfully",
       data: result.rows[0],
     });
   } catch (err: any) {
-    res.status(404).json({
+    sendResponse(res, {
+      statusCode: 400,
       success: false,
       message: err.message,
+      data: null,
     });
   }
 };
@@ -21,22 +27,27 @@ const createBooking = async (req: Request, res: Response) => {
 //getting all bookings
 const getBookings = async (req: Request, res: Response) => {
   try {
-    const result = await bookingService.getBookings();
-    res.status(200).json({
+    const user = (req as any).user;
+    const result = await bookingService.getBookings(user);
+    
+    sendResponse(res, {
+      statusCode: 200,
       success: true,
+      message: "Bookings retrieved successfully",
       data: result.rows,
     });
   } catch (err: any) {
-    res.status(500).json({
+    sendResponse(res, {
+      statusCode: 500,
       success: false,
       message: err.message,
+      data: null,
     });
   }
 };
 
 const updateBookings = async (req: Request, res: Response) => {
   const bookingId = req.params.bookingId;
-  const { status } = req.body;
 
   try {
     const result = await bookingService.updateBookings(
@@ -45,21 +56,26 @@ const updateBookings = async (req: Request, res: Response) => {
     );
 
     if (result.rows.length === 0) {
-      res.status(404).json({
-        status: false,
-        message: "Nothing Found",
+      sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Booking not found",
+        data: null,
       });
     } else {
-      res.status(200).json({
-        status: true,
-        message: "Booking Data Updated Successfully",
+      sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Booking updated successfully",
         data: result.rows[0],
       });
     }
   } catch (err: any) {
-    res.status(500).json({
-      status: false,
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
       message: err.message,
+      data: null,
     });
   }
 };
@@ -69,20 +85,26 @@ const deleteBooking = async (req: Request, res: Response) => {
   try {
     const result = await bookingService.deleteBookings(bookingId as string);
     if (result.rowCount === 0) {
-      res.status(404).json({
-        status: false,
-        message: "Nothing Found",
+      sendResponse(res, {
+        statusCode: 404,
+        success: false,
+        message: "Booking not found",
+        data: null,
       });
     } else {
-      res.status(200).json({
-        status: true,
-        message: "Bookings Deleted Successfully",
+      sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "Booking deleted successfully",
+        data: null,
       });
     }
   } catch (err: any) {
-    res.status(500).json({
-      status: false,
+    sendResponse(res, {
+      statusCode: 500,
+      success: false,
       message: err.message,
+      data: null,
     });
   }
 };

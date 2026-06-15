@@ -31,7 +31,7 @@ const getSingleUser = async (email: string) => {
 //update user
 const updateUser = async (
   paramsEmail: string,
-  payload: Record<string, undefined | string>
+  payload: Record<string, any>
 ) => {
   const { name, email, role, password, phone } = payload;
 
